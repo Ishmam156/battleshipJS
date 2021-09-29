@@ -7,7 +7,6 @@
 
 const createShip = (length, arrayCoords) => {
   const shipLength = length;
-  let shipSunk = false;
   let shipCoords = arrayCoords.map((spot) => {
     return {
       coords: [spot[0], spot[1]],
@@ -21,7 +20,6 @@ const createShip = (length, arrayCoords) => {
         ? { ...spot, isHit: true }
         : spot
     );
-
     return true;
   };
 
@@ -29,10 +27,17 @@ const createShip = (length, arrayCoords) => {
 
   const hitCoords = () => shipCoords.filter((coords) => coords.isHit);
 
+  const getShipLength = () => shipLength;
+
+  const allCoords = () =>
+    shipCoords.map((point) => [point.coords[0], point.coords[1]]);
+
   return {
     hit,
     isSunk,
     hitCoords,
+    getShipLength,
+    allCoords,
   };
 };
 
