@@ -1,0 +1,40 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "a battleship game for the odin project",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack serve --open",
+    "watch": "webpack --watch",
+    "deploy:gh": "git subtree push --prefix dist origin gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ishmam156/battleshipJS.git"
+  },
+  "keywords": [
+    "theodinproject",
+    "js",
+    "battleship",
+    "game",
+    "html",
+    "css"
+  ],
+  "author": "Ishmam Chowdhury",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ishmam156/battleshipJS/issues"
+  },
+  "homepage": "https://github.com/Ishmam156/battleshipJS#readme",
+  "devDependencies": {
+    "css-loader": "^6.2.0",
+    "dotenv-webpack": "^7.0.3",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.3.0",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.2.0"
+  }
+}
