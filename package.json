@@ -4,7 +4,8 @@
   "description": "a battleship game for the odin project",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "webpack",
     "start": "webpack serve --open",
     "watch": "webpack --watch",
@@ -32,6 +33,7 @@
     "css-loader": "^6.2.0",
     "dotenv-webpack": "^7.0.3",
     "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.2.3",
     "mini-css-extract-plugin": "^2.3.0",
     "webpack": "^5.52.1",
     "webpack-cli": "^4.8.0",
