@@ -4,3 +4,33 @@
 // outside of your ‘ship’ object need unit tests.
 // Ships should have a hit() function that takes a number and then marks that position as ‘hit’.
 // isSunk() should be a function that calculates it based on their length and whether all of their positions are ‘hit’.
+
+const createShip = (length, arrayCoords) => {
+  const shipLength = length;
+  let shipSunk = false;
+  let shipCoords = arrayCoords.map((spot) => {
+    return {
+      coords: [spot[0], spot[1]],
+      isHit: false,
+    };
+  });
+
+  const hit = (coords) => {
+    shipCoords = shipCoords.map((spot) =>
+      spot.coords[0] === coords[0] && spot.coords[1] === coords[1]
+        ? { ...spot, isHit: true }
+        : spot
+    );
+
+    return true;
+  };
+
+  const isSunk = () => shipCoords.every((coord) => coord.isHit);
+
+  return {
+    hit,
+    isSunk,
+  };
+};
+
+export { createShip };
