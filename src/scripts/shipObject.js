@@ -27,9 +27,12 @@ const createShip = (length, arrayCoords) => {
 
   const isSunk = () => shipCoords.every((coord) => coord.isHit);
 
+  const hitCoords = () => shipCoords.filter((coords) => coords.isHit);
+
   return {
     hit,
     isSunk,
+    hitCoords,
   };
 };
 
