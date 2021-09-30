@@ -55,4 +55,16 @@ describe("Tests for Ship Factory Function", () => {
 
     expect(testingShip.isSunk()).toBe(false);
   });
+
+  test("Returns correct length of ship with getShipLength() call", () => {
+    const testingShip = createShip(3, coordinates);
+
+    expect(testingShip.getShipLength()).toBe(3);
+  });
+
+  test("Returns correct co-ordinates of ship with allCoords() call", () => {
+    const testingShip = createShip(3, coordinates);
+
+    expect(testingShip.allCoords()).toStrictEqual(coordinates);
+  });
 });
