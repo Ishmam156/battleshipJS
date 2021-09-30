@@ -37,11 +37,14 @@ const gameBoard = () => {
     return allShipStatus.every((status) => status);
   };
 
+  const getAllShipCoords = () => allShipCoords;
+
   return {
     placeShip,
     receiveAttack,
     getMissedAttacks,
     allSunk,
+    getAllShipCoords,
   };
 };
 

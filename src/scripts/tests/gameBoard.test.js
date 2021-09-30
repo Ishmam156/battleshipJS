@@ -15,15 +15,34 @@ describe("Tests for Game Board Function", () => {
     [1, 5],
   ];
 
-  test("Gameboards should be able to place ships at specific coordinates by calling the ship factory function. ", () => {
+  test("Gameboards should be able to place ships at specific coordinates by calling the ship factory function.", () => {
     const newGame = gameBoard();
     expect(newGame.placeShip(coordinates)).toBe(true);
   });
 
-  test("Gameboards takes coordinates for receiveAttack and hits ship if valid attack", () => {
+  test("Gameboards takes coordinates for receiveAttack and hits correct ship if valid attack", () => {
     const newGame = gameBoard();
     newGame.placeShip(coordinates);
-    expect(newGame.receiveAttack([1, 2])).toBe(true);
+    const singleCoordinate = [1, 2];
+
+    expect(newGame.receiveAttack(singleCoordinate)).toBe(true);
+
+    const isHit = newGame
+      .getAllShipCoords()
+      .find(
+        (point) =>
+          point.coords[0] === singleCoordinate[0] &&
+          point.coords[1] === singleCoordinate[1]
+      );
+    const hitShipCoords = isHit.ship.hitCoords();
+
+    expect(
+      hitShipCoords.some(
+        (item) =>
+          item.coords[0] === singleCoordinate[0] &&
+          item.coords[1] === singleCoordinate[1]
+      )
+    ).toBe(true);
   });
 
   test("Gameboards takes coordinates for receiveAttack and records missed attack if invalid move", () => {
