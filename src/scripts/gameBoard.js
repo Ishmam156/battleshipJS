@@ -1,4 +1,4 @@
-import { createShip } from "./shipObject";
+import { createShip } from "./ship";
 
 const gameBoard = () => {
   const allShipCoords = [];

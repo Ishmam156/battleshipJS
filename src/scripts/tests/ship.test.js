@@ -1,4 +1,4 @@
-import { createShip } from "../shipObject";
+import { createShip } from "../ship";
 
 describe("Tests for Ship Factory Function", () => {
   const coordinates = [
