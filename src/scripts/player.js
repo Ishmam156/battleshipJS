@@ -1,4 +1,4 @@
-const BOARD_SIZE = 10;
+import { BOARD_SIZE } from "./gameBoard";
 
 const player = (gameBoard) => {
   const enemyBoard = gameBoard;
