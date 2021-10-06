@@ -1,4 +1,5 @@
 // Create the main game loop and a module for DOM interaction.
+
 // At this point it is appropriate to begin crafting your User Interface.
 // The game loop should set up a new game by creating Players and Gameboards.
 // For now just populate each Gameboard with predetermined coordinates.
@@ -12,3 +13,16 @@
 // step back and figure out which class or module that function should belong to.
 // Create conditions so that the game ends once one players ships have all been sunk.
 // This function is appropriate for the Game module.
+
+import { gameBoard } from "./gameBoard";
+import { player } from "./player";
+import { createShip } from "./ship";
+
+const gameLoop = () => {
+  console.log("starting");
+
+    
+
+};
+
+export { gameLoop };

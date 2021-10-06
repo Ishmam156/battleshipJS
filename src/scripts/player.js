@@ -9,7 +9,10 @@ const player = (gameBoard) => {
     Math.floor(Math.random() * BOARD_SIZE),
   ];
 
-  const makeMove = (coords) => {};
+  const makeMove = (coords) => {
+    enemyBoard.receiveAttack(coords);
+    return true;
+  };
 
   const makeRandomMove = () => {
     let move = randomMove();
