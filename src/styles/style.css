@@ -20,6 +20,21 @@ main {
   padding: 20px;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+
+#humanBoard,
+#computerBoard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+#humanBoard div,
+#computerBoard div {
+  height: 30px;
+  width: 30px;
+  border: 1px solid gray;
 }
 
 footer {
