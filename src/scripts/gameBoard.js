@@ -34,11 +34,11 @@ const gameBoard = () => {
 
   const receiveAttack = (coords) => {
     const isHit = board[coords[0]][coords[1]];
+    isHit.hasHit = true;
     if (isHit.hasShip) {
       isHit.ship.hit(coords);
       return true;
     }
-    isHit.hasHit = true;
     return false;
   };
 
@@ -61,14 +61,14 @@ const gameBoard = () => {
     return allShipStatus.every((status) => status);
   };
 
-  const getAllShipCoords = () => allShipCoords;
+  const getBoard = () => board;
 
   return {
     placeShip,
     receiveAttack,
     getMissedAttacks,
     allSunk,
-    getAllShipCoords,
+    getBoard,
   };
 };
 

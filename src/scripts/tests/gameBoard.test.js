@@ -27,22 +27,10 @@ describe("Tests for Game Board Function", () => {
 
     expect(newGame.receiveAttack(singleCoordinate)).toBe(true);
 
-    const isHit = newGame
-      .getAllShipCoords()
-      .find(
-        (point) =>
-          point.coords[0] === singleCoordinate[0] &&
-          point.coords[1] === singleCoordinate[1]
-      );
-    const hitShipCoords = isHit.ship.hitCoords();
-
-    // expect(
-    //   hitShipCoords.some(
-    //     (item) =>
-    //       item.coords[0] === singleCoordinate[0] &&
-    //       item.coords[1] === singleCoordinate[1]
-    //   )
-    // ).toBe(true);
+    const currentBoard = newGame.getBoard();
+    const attackCoordinate =
+      currentBoard[singleCoordinate[0]][singleCoordinate[1]];
+    expect(attackCoordinate.hasHit).toBe(true);
   });
 
   test("Gameboards takes coordinates for receiveAttack and records missed attack if invalid move", () => {
