@@ -5,7 +5,7 @@ describe("Tests for Player function", () => {
   test("Computer player should be able to make random move", () => {
     const humanBoard = gameBoard();
     const computerPlayer = player(humanBoard);
-    expect(computerPlayer.makeRandomMove()).toBe(true);
+    expect(computerPlayer.makeRandomMove()).toHaveLength(2);
     expect(humanBoard.getMissedAttacks()).toHaveLength(1);
   });
 

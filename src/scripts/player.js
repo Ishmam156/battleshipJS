@@ -3,6 +3,7 @@ import { BOARD_SIZE } from "./gameBoard";
 const player = (gameBoard) => {
   const enemyBoard = gameBoard;
   const movesMade = [];
+  let lastMoveHit = false;
 
   const randomMove = () => [
     Math.floor(Math.random() * BOARD_SIZE),
@@ -24,8 +25,13 @@ const player = (gameBoard) => {
     ) {
       move = randomMove();
     }
-    enemyBoard.receiveAttack(move);
-    return true;
+    movesMade.push(move);
+    const isHit = enemyBoard.receiveAttack(move);
+    if (isHit) {
+      lastMoveHit = true;
+    }
+    // console.log(lastMoveHit);
+    return move;
   };
 
   return {
