@@ -35,6 +35,9 @@ main {
   height: 30px;
   width: 30px;
   border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 footer {

@@ -69,15 +69,22 @@ const gameBoard = () => {
         const toAdd = document.createElement("div");
         toAdd.dataset.row = outerIndex;
         toAdd.dataset.column = innerIndex;
+
+        const coordStatus = board[outerIndex][innerIndex];
+
         if (showShip) {
-          const coordStatus = board[outerIndex][innerIndex];
-          if (coordStatus.hasShip && coordStatus.hasHit) {
-            toAdd.style.background = "red";
-          } else if (coordStatus.hasHit) {
-            toAdd.style.background = "blue";
-          } else if (coordStatus.hasShip) {
+          if (coordStatus.hasShip) {
             toAdd.style.background = "purple";
           }
+        }
+
+        if (coordStatus.hasShip && coordStatus.hasHit) {
+          toAdd.style.background = "red";
+          if (coordStatus.ship.isSunk()) {
+            toAdd.textContent = "X";
+          }
+        } else if (coordStatus.hasHit) {
+          toAdd.style.background = "blue";
         }
 
         DOMElement.appendChild(toAdd);

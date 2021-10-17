@@ -30,13 +30,10 @@ const gameLoop = () => {
       ) {
         return;
       }
-      const isHit = board.receiveAttack(coordinate);
+      board.receiveAttack(coordinate);
 
-      if (isHit) {
-        event.target.style.background = "red";
-      } else {
-        event.target.style.background = "blue";
-      }
+      computerDOMBoard.innerHTML = "";
+      computerBoard.renderGameBoard(computerDOMBoard, false);
 
       if (checkWinner()) {
         alert("You Win!");
