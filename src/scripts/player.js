@@ -4,6 +4,7 @@ const player = (gameBoard) => {
   const enemyBoard = gameBoard;
   const movesMade = [];
   let lastMoveHit = false;
+  let playerTurn = false;
 
   const randomMove = () => [
     Math.floor(Math.random() * BOARD_SIZE),
@@ -61,9 +62,17 @@ const player = (gameBoard) => {
     return move;
   };
 
+  const changeTurn = () => {
+    playerTurn = !playerTurn;
+  };
+
+  const currentTurn = () => playerTurn;
+
   return {
     makeMove,
     makeRandomMove,
+    currentTurn,
+    changeTurn,
   };
 };
 

@@ -2,12 +2,15 @@ import { gameBoard, BOARD_SIZE } from "./gameBoard";
 import { player } from "./player";
 
 const gameLoop = () => {
-  const humanBoard = gameBoard();
-  const computerBoard = gameBoard();
-  let currentPlayer;
-
   const humanDOMBoard = document.getElementById("humanBoard");
   const computerDOMBoard = document.getElementById("computerBoard");
+
+  const humanBoard = gameBoard();
+  const computerBoard = gameBoard();
+  const humanPlayer = player(computerBoard);
+  const computerPlayer = player(humanBoard);
+
+  humanPlayer.changeTurn();
 
   const checkWinner = () => {
     if (humanBoard.allSunk() || computerBoard.allSunk()) return true;
@@ -15,7 +18,7 @@ const gameLoop = () => {
   };
 
   const boardListener = (event, board) => {
-    if (currentPlayer === humanPlayer) {
+    if (humanPlayer.currentTurn()) {
       const coordinate = [
         Number(event.target.dataset.row),
         Number(event.target.dataset.column),
@@ -27,7 +30,7 @@ const gameLoop = () => {
       ) {
         return;
       }
-      const isHit = computerBoard.receiveAttack(coordinate);
+      const isHit = board.receiveAttack(coordinate);
 
       if (isHit) {
         event.target.style.background = "red";
@@ -40,15 +43,18 @@ const gameLoop = () => {
         return;
       }
 
-      currentPlayer = computerPlayer;
+      humanPlayer.changeTurn();
+
+      computerPlayer.changeTurn();
       computerPlayer.makeRandomMove();
       humanDOMBoard.innerHTML = "";
       humanBoard.renderGameBoard(humanDOMBoard, true);
-      currentPlayer = humanPlayer;
       if (checkWinner()) {
         alert("Computer Wins");
         return;
       }
+      computerPlayer.changeTurn();
+      humanPlayer.changeTurn();
     }
   };
 
@@ -56,12 +62,8 @@ const gameLoop = () => {
     boardListener(event, computerBoard)
   );
 
-  const humanPlayer = player(computerBoard);
-  const computerPlayer = player(humanBoard);
-
-  currentPlayer = humanPlayer;
-
-  const initializationShips = () => {
+  // Set up for initial gameplay
+  (function initializationShips() {
     humanBoard.placeShip([
       [1, 1],
       [1, 2],
@@ -125,9 +127,7 @@ const gameLoop = () => {
       [8, 1],
       [8, 2],
     ]);
-  };
-
-  initializationShips();
+  })();
 
   humanBoard.renderGameBoard(humanDOMBoard, true);
   computerBoard.renderGameBoard(computerDOMBoard, false);
