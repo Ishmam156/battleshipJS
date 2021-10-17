@@ -63,12 +63,35 @@ const gameBoard = () => {
 
   const getBoard = () => board;
 
+  const renderGameBoard = (DOMElement, showShip) => {
+    for (let outerIndex = 0; outerIndex < BOARD_SIZE; outerIndex++) {
+      for (let innerIndex = 0; innerIndex < BOARD_SIZE; innerIndex++) {
+        const toAdd = document.createElement("div");
+        toAdd.dataset.row = outerIndex;
+        toAdd.dataset.column = innerIndex;
+        if (showShip) {
+          const coordStatus = board[outerIndex][innerIndex];
+          if (coordStatus.hasShip && coordStatus.hasHit) {
+            toAdd.style.background = "red";
+          } else if (coordStatus.hasHit) {
+            toAdd.style.background = "blue";
+          } else if (coordStatus.hasShip) {
+            toAdd.style.background = "purple";
+          }
+        }
+
+        DOMElement.appendChild(toAdd);
+      }
+    }
+  };
+
   return {
     placeShip,
     receiveAttack,
     getMissedAttacks,
     allSunk,
     getBoard,
+    renderGameBoard,
   };
 };
 

@@ -43,7 +43,7 @@ const gameLoop = () => {
       currentPlayer = computerPlayer;
       computerPlayer.makeRandomMove();
       humanDOMBoard.innerHTML = "";
-      renderHumanBoard();
+      humanBoard.renderGameBoard(humanDOMBoard, true);
       currentPlayer = humanPlayer;
       if (checkWinner()) {
         alert("Computer Wins");
@@ -52,9 +52,6 @@ const gameLoop = () => {
     }
   };
 
-  humanDOMBoard.addEventListener("click", (event) =>
-    boardListener(event, humanBoard)
-  );
   computerDOMBoard.addEventListener("click", (event) =>
     boardListener(event, computerBoard)
   );
@@ -64,104 +61,76 @@ const gameLoop = () => {
 
   currentPlayer = humanPlayer;
 
-  humanBoard.placeShip([
-    [1, 1],
-    [1, 2],
-    [1, 3],
-    [1, 4],
-    [1, 5],
-  ]);
+  const initializationShips = () => {
+    humanBoard.placeShip([
+      [1, 1],
+      [1, 2],
+      [1, 3],
+      [1, 4],
+      [1, 5],
+    ]);
 
-  humanBoard.placeShip([
-    [3, 3],
-    [3, 4],
-    [3, 5],
-    [3, 6],
-  ]);
+    humanBoard.placeShip([
+      [3, 3],
+      [3, 4],
+      [3, 5],
+      [3, 6],
+    ]);
 
-  humanBoard.placeShip([
-    [5, 4],
-    [6, 4],
-    [7, 4],
-  ]);
+    humanBoard.placeShip([
+      [5, 4],
+      [6, 4],
+      [7, 4],
+    ]);
 
-  humanBoard.placeShip([
-    [6, 7],
-    [7, 7],
-    [8, 7],
-  ]);
+    humanBoard.placeShip([
+      [6, 7],
+      [7, 7],
+      [8, 7],
+    ]);
 
-  humanBoard.placeShip([
-    [8, 1],
-    [8, 2],
-  ]);
+    humanBoard.placeShip([
+      [8, 1],
+      [8, 2],
+    ]);
 
-  computerBoard.placeShip([
-    [1, 1],
-    [1, 2],
-    [1, 3],
-    [1, 4],
-    [1, 5],
-  ]);
+    computerBoard.placeShip([
+      [1, 1],
+      [1, 2],
+      [1, 3],
+      [1, 4],
+      [1, 5],
+    ]);
 
-  computerBoard.placeShip([
-    [3, 3],
-    [3, 4],
-    [3, 5],
-    [3, 6],
-  ]);
+    computerBoard.placeShip([
+      [3, 3],
+      [3, 4],
+      [3, 5],
+      [3, 6],
+    ]);
 
-  computerBoard.placeShip([
-    [5, 4],
-    [6, 4],
-    [7, 4],
-  ]);
+    computerBoard.placeShip([
+      [5, 4],
+      [6, 4],
+      [7, 4],
+    ]);
 
-  computerBoard.placeShip([
-    [6, 7],
-    [7, 7],
-    [8, 7],
-  ]);
+    computerBoard.placeShip([
+      [6, 7],
+      [7, 7],
+      [8, 7],
+    ]);
 
-  computerBoard.placeShip([
-    [8, 1],
-    [8, 2],
-  ]);
-
-  const displayHumanBoard = humanBoard.getBoard();
-
-  const renderHumanBoard = () => {
-    for (let outerIndex = 0; outerIndex < BOARD_SIZE; outerIndex++) {
-      for (let innerIndex = 0; innerIndex < BOARD_SIZE; innerIndex++) {
-        const toAdd = document.createElement("div");
-        toAdd.dataset.row = outerIndex;
-        toAdd.dataset.column = innerIndex;
-        const coordStatus = displayHumanBoard[outerIndex][innerIndex];
-        if (coordStatus.hasShip && coordStatus.hasHit) {
-          toAdd.style.background = "red";
-        } else if (coordStatus.hasHit) {
-          toAdd.style.background = "blue";
-        } else if (coordStatus.hasShip) {
-          toAdd.style.background = "purple";
-        }
-
-        humanDOMBoard.appendChild(toAdd);
-      }
-    }
+    computerBoard.placeShip([
+      [8, 1],
+      [8, 2],
+    ]);
   };
 
-  renderHumanBoard();
-  const displayComputerBoard = computerBoard.getBoard();
+  initializationShips();
 
-  for (let outerIndex = 0; outerIndex < BOARD_SIZE; outerIndex++) {
-    for (let innerIndex = 0; innerIndex < BOARD_SIZE; innerIndex++) {
-      const toAdd = document.createElement("div");
-      toAdd.dataset.row = outerIndex;
-      toAdd.dataset.column = innerIndex;
-
-      computerDOMBoard.appendChild(toAdd);
-    }
-  }
+  humanBoard.renderGameBoard(humanDOMBoard, true);
+  computerBoard.renderGameBoard(computerDOMBoard, false);
 };
 
 export { gameLoop };
