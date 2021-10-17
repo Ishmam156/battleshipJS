@@ -56,24 +56,62 @@ const gameLoop = () => {
     [1, 2],
     [1, 3],
     [1, 4],
-  ]);
-
-  computerBoard.placeShip([
-    [2, 1],
-    [2, 2],
-    [2, 3],
+    [1, 5],
   ]);
 
   humanBoard.placeShip([
     [3, 3],
     [3, 4],
     [3, 5],
+    [3, 6],
+  ]);
+
+  humanBoard.placeShip([
+    [5, 4],
+    [6, 4],
+    [7, 4],
+  ]);
+
+  humanBoard.placeShip([
+    [6, 7],
+    [7, 7],
+    [8, 7],
+  ]);
+
+  humanBoard.placeShip([
+    [8, 1],
+    [8, 2],
   ]);
 
   computerBoard.placeShip([
-    [5, 2],
-    [6, 2],
-    [7, 2],
+    [1, 1],
+    [1, 2],
+    [1, 3],
+    [1, 4],
+    [1, 5],
+  ]);
+
+  computerBoard.placeShip([
+    [3, 3],
+    [3, 4],
+    [3, 5],
+    [3, 6],
+  ]);
+
+  computerBoard.placeShip([
+    [5, 4],
+    [6, 4],
+    [7, 4],
+  ]);
+
+  computerBoard.placeShip([
+    [6, 7],
+    [7, 7],
+    [8, 7],
+  ]);
+
+  computerBoard.placeShip([
+    [8, 1],
     [8, 2],
   ]);
 
@@ -100,10 +138,10 @@ const gameLoop = () => {
       const toAdd = document.createElement("div");
       toAdd.dataset.row = outerIndex;
       toAdd.dataset.column = innerIndex;
-      const coordStatus = displayComputerBoard[outerIndex][innerIndex];
-      if (coordStatus.hasShip) {
-        toAdd.style.background = "purple";
-      }
+      // const coordStatus = displayComputerBoard[outerIndex][innerIndex];
+      // if (coordStatus.hasShip) {
+      //   toAdd.style.background = "purple";
+      // }
 
       computerDOMBoard.appendChild(toAdd);
     }
