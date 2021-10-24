@@ -1,10 +1,13 @@
-import { gameBoard, BOARD_SIZE } from "./gameBoard";
+import { gameBoard } from "./gameBoard";
 import { player } from "./player";
+import { DOMInteraction } from "./DOMInteraction";
 
 const gameLoop = () => {
   const humanDOMBoard = document.getElementById("humanBoard");
   const computerDOMBoard = document.getElementById("computerBoard");
   const textDisplay = document.getElementById("textContent").firstElementChild;
+
+  const DOMActivity = DOMInteraction();
 
   const humanBoard = gameBoard();
   const computerBoard = gameBoard();
@@ -13,49 +16,17 @@ const gameLoop = () => {
 
   const shipLengths = [5, 4, 3, 3, 2];
   let shipIndex = 0;
-  let shipDimension = "row";
   let shipPlacementPossible = false;
-
-  textDisplay.textContent = `Place your ships on the board! Current ship length: ${shipLengths[shipIndex]} places`;
 
   const checkWinner = () => {
     if (humanBoard.allSunk() || computerBoard.allSunk()) return true;
     return false;
   };
 
-  const addRestartButton = () => {
-    const restartButton = document.getElementById("dimensionButton");
-    restartButton.style.display = "block";
-    restartButton.textContent = "Play again?";
-    restartButton.onclick = () => location.reload();
-  };
-
-  (function addDimensionButton() {
-    const humanMainDiv = document.getElementById("textContent");
-    const button = document.createElement("button");
-
-    button.id = "dimensionButton";
-    button.textContent = `Change placement to ${
-      shipDimension === "row" ? "row" : "column"
-    }`;
-
-    button.addEventListener("click", (event) => {
-      const currentText = document.getElementById("dimensionButton");
-
-      if (currentText.textContent.includes("row")) {
-        shipDimension = "column";
-        currentText.textContent = "Change placement to column";
-      } else {
-        shipDimension = "row";
-        currentText.textContent = "Change placement to row";
-      }
-    });
-
-    humanMainDiv.appendChild(button);
-  })();
-
   const boardListener = (event, board) => {
     if (humanPlayer.currentTurn()) {
+      if (Object.keys(event.target.dataset).length === 0) return;
+
       const coordinate = [
         Number(event.target.dataset.row),
         Number(event.target.dataset.column),
@@ -76,7 +47,7 @@ const gameLoop = () => {
         textDisplay.textContent =
           "Congratulations! You've won and sank all the ships!";
         textDisplay.style.fontWeight = "bold";
-        addRestartButton();
+        DOMActivity.addRestartButton();
         return;
       }
 
@@ -93,7 +64,7 @@ const gameLoop = () => {
           textDisplay.textContent =
             "Oh no! You've lost and all your ships have sunk!";
           textDisplay.style.fontWeight = "bold";
-          addRestartButton();
+          DOMActivity.addRestartButton();
           return;
         }
         computerPlayer.changeTurn();
@@ -145,6 +116,7 @@ const gameLoop = () => {
 
   const mouseOverHumanBoard = (event) => {
     const element = event.target;
+    const shipDimension = localStorage.getItem("shipDimension");
 
     if (shipIndex === shipLengths.length) {
       humanDOMBoard.removeEventListener("mouseover", mouseOverHumanBoard);
@@ -197,6 +169,8 @@ const gameLoop = () => {
 
   const mouseOutHumanBoard = (event) => {
     const element = event.target;
+    const shipDimension = localStorage.getItem("shipDimension");
+
     if (
       element.style.background === "rgb(84, 140, 168)" ||
       element.style.background === "indianred"
@@ -225,6 +199,7 @@ const gameLoop = () => {
 
   const mouseClickHumanBoard = (event) => {
     const element = event.target;
+    const shipDimension = localStorage.getItem("shipDimension");
     const placementCoordinates = [];
 
     if (shipPlacementPossible) {
