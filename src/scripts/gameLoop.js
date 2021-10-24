@@ -15,12 +15,34 @@ const gameLoop = () => {
   let shipDimension = "row";
   let shipPlacementPossible = false;
 
-  humanPlayer.changeTurn();
-
   const checkWinner = () => {
     if (humanBoard.allSunk() || computerBoard.allSunk()) return true;
     return false;
   };
+
+  (function addDimensionButton() {
+    const humanMainDiv = document.querySelector("main").firstElementChild;
+    const button = document.createElement("button");
+
+    button.id = "dimensionButton";
+    button.textContent = `Change to ${
+      shipDimension === "row" ? "row" : "column"
+    }`;
+
+    button.addEventListener("click", (event) => {
+      const currentText = document.getElementById("dimensionButton");
+
+      if (currentText.textContent.includes("row")) {
+        shipDimension = "column";
+        currentText.textContent = "Change to column";
+      } else {
+        shipDimension = "row";
+        currentText.textContent = "Change to row";
+      }
+    });
+
+    humanMainDiv.appendChild(button);
+  })();
 
   const boardListener = (event, board) => {
     if (humanPlayer.currentTurn()) {
@@ -66,38 +88,6 @@ const gameLoop = () => {
 
   // Set up for initial gameplay
   (function initializationShips() {
-    humanBoard.placeShip([
-      [1, 1],
-      [1, 2],
-      [1, 3],
-      [1, 4],
-      [1, 5],
-    ]);
-
-    // humanBoard.placeShip([
-    //   [3, 3],
-    //   [3, 4],
-    //   [3, 5],
-    //   [3, 6],
-    // ]);
-
-    // humanBoard.placeShip([
-    //   [5, 4],
-    //   [6, 4],
-    //   [7, 4],
-    // ]);
-
-    // humanBoard.placeShip([
-    //   [6, 7],
-    //   [7, 7],
-    //   [8, 7],
-    // ]);
-
-    // humanBoard.placeShip([
-    //   [8, 1],
-    //   [8, 2],
-    // ]);
-
     computerBoard.placeShip([
       [1, 1],
       [1, 2],
@@ -131,10 +121,16 @@ const gameLoop = () => {
     ]);
   })();
 
-  humanDOMBoard.addEventListener("mouseover", (event) => {
+  const mouseOverHumanBoard = (event) => {
     const element = event.target;
 
-    if (shipIndex === shipLengths.length) return;
+    if (shipIndex === shipLengths.length) {
+      humanDOMBoard.removeEventListener("mouseover", mouseOverHumanBoard);
+      humanDOMBoard.removeEventListener("mouseout", mouseOutHumanBoard);
+      humanDOMBoard.removeEventListener("click", mouseClickHumanBoard);
+      document.getElementById("dimensionButton").style.display = "none";
+      humanPlayer.changeTurn();
+    }
 
     if (!element.style.background) {
       element.style.background = "lightgrey";
@@ -170,9 +166,9 @@ const gameLoop = () => {
         }
       }
     }
-  });
+  };
 
-  humanDOMBoard.addEventListener("mouseout", (event) => {
+  const mouseOutHumanBoard = (event) => {
     const element = event.target;
     if (element.style.background === "lightgrey") {
       element.style.background = "";
@@ -195,9 +191,9 @@ const gameLoop = () => {
         shipPlacementPossible = false;
       }
     }
-  });
+  };
 
-  humanDOMBoard.addEventListener("click", (event) => {
+  const mouseClickHumanBoard = (event) => {
     const element = event.target;
     const placementCoordinates = [];
 
@@ -221,8 +217,13 @@ const gameLoop = () => {
       humanDOMBoard.innerHTML = "";
       humanBoard.renderGameBoard(humanDOMBoard, true);
       shipIndex++;
+      shipPlacementPossible = false;
     }
-  });
+  };
+
+  humanDOMBoard.addEventListener("mouseover", mouseOverHumanBoard);
+  humanDOMBoard.addEventListener("mouseout", mouseOutHumanBoard);
+  humanDOMBoard.addEventListener("click", mouseClickHumanBoard);
 
   humanBoard.renderGameBoard(humanDOMBoard, true);
   computerBoard.renderGameBoard(computerDOMBoard, false);
