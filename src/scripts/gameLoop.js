@@ -153,6 +153,7 @@ const gameLoop = () => {
       document.getElementById("dimensionButton").style.display = "none";
       humanPlayer.changeTurn();
       textDisplay.textContent = "Your turn! Try to sink your opponent's ships!";
+      document.getElementById("computerBoard").classList.add("hover");
     }
 
     if (!element.style.background) {

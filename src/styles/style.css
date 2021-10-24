@@ -103,3 +103,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.hover {
+  cursor: pointer;
+}
