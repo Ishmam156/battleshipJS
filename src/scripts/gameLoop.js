@@ -10,6 +10,11 @@ const gameLoop = () => {
   const humanPlayer = player(computerBoard);
   const computerPlayer = player(humanBoard);
 
+  const shipLengths = [5, 4, 3, 3, 2];
+  let shipIndex = 0;
+  let shipDimension = "row";
+  let shipPlacementPossible = false;
+
   humanPlayer.changeTurn();
 
   const checkWinner = () => {
@@ -131,6 +136,37 @@ const gameLoop = () => {
 
     if (!element.style.background) {
       element.style.background = "lightgrey";
+      const shipToPaint = shipLengths[shipIndex];
+
+      const divsToPaint = [];
+
+      for (let index = 1; index < shipToPaint; index++) {
+        const newCoordinates = {
+          row: Number(element.dataset.row),
+          column: Number(element.dataset.column),
+        };
+        newCoordinates[shipDimension] = newCoordinates[shipDimension] + index;
+        let toColorElement;
+
+        try {
+          toColorElement = document.querySelector(
+            `[data-row="${newCoordinates.row}"][data-column="${newCoordinates.column}"]`
+          );
+        } catch (error) {
+          toColorElement = false;
+        }
+
+        if (toColorElement && !toColorElement.style.background) {
+          divsToPaint.push(toColorElement);
+        }
+
+        if (divsToPaint.length === shipToPaint - 1) {
+          divsToPaint.forEach(
+            (paintElement) => (paintElement.style.background = "lightgrey")
+          );
+          shipPlacementPossible = true;
+        }
+      }
     }
   });
 
@@ -138,6 +174,24 @@ const gameLoop = () => {
     const element = event.target;
     if (element.style.background === "lightgrey") {
       element.style.background = "";
+
+      const shipToPaint = shipLengths[shipIndex];
+
+      if (shipPlacementPossible) {
+        for (let index = 1; index < shipToPaint; index++) {
+          const newCoordinates = {
+            row: Number(element.dataset.row),
+            column: Number(element.dataset.column),
+          };
+          newCoordinates[shipDimension] = newCoordinates[shipDimension] + index;
+          const toColorElement = document.querySelector(
+            `[data-row="${newCoordinates.row}"][data-column="${newCoordinates.column}"]`
+          );
+          toColorElement.style.background = "";
+        }
+
+        shipPlacementPossible = false;
+      }
     }
   });
 
