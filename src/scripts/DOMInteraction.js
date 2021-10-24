@@ -1,13 +1,14 @@
-const DOMInteraction = () => {
+const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
   const shipLengths = [5, 4, 3, 3, 2];
   let shipIndex = 0;
   let shipDimension = "row";
-  localStorage.setItem("shipDimension", shipDimension);
   let shipPlacementPossible = false;
 
+  const computerDOMBoard = document.getElementById("computerBoard");
   const textDisplay = document.getElementById("textContent").firstElementChild;
-
   textDisplay.textContent = `Place your ships on the board! Current ship length: ${shipLengths[shipIndex]} places`;
+
+  computerDOMBoard.parentElement.style.display = "none";
 
   const addRestartButton = () => {
     const restartButton = document.getElementById("dimensionButton");
@@ -35,15 +36,139 @@ const DOMInteraction = () => {
         shipDimension = "row";
         currentText.textContent = "Change placement to row";
       }
-
-      localStorage.setItem("shipDimension", shipDimension);
     });
 
     humanMainDiv.appendChild(button);
   })();
 
+  const mouseOverHumanBoard = (event) => {
+    const element = event.target;
+
+    if (shipIndex === shipLengths.length) {
+      humanDOMBoard.removeEventListener("mouseover", mouseOverHumanBoard);
+      humanDOMBoard.removeEventListener("mouseout", mouseOutHumanBoard);
+      humanDOMBoard.removeEventListener("click", mouseClickHumanBoard);
+      document.getElementById("dimensionButton").style.display = "none";
+      document.getElementById("computerBoard").classList.add("hover");
+      computerDOMBoard.parentElement.style.display = "block";
+      textDisplay.textContent = "Your turn! Try to sink your opponent's ships!";
+      humanPlayer.changeTurn();
+    }
+
+    if (!element.style.background) {
+      const shipToPaint = shipLengths[shipIndex];
+
+      const divsToPaint = [];
+
+      for (let index = 1; index < shipToPaint; index++) {
+        const newCoordinates = {
+          row: Number(element.dataset.row),
+          column: Number(element.dataset.column),
+        };
+        newCoordinates[shipDimension] = newCoordinates[shipDimension] + index;
+        let toColorElement;
+
+        try {
+          toColorElement = document.querySelector(
+            `[data-row="${newCoordinates.row}"][data-column="${newCoordinates.column}"]`
+          );
+        } catch (error) {
+          toColorElement = false;
+        }
+
+        if (toColorElement && !toColorElement.style.background) {
+          divsToPaint.push(toColorElement);
+        }
+
+        if (divsToPaint.length === shipToPaint - 1) {
+          divsToPaint.forEach(
+            (paintElement) =>
+              (paintElement.style.background = "rgb(84, 140, 168)")
+          );
+          element.style.background = "rgb(84, 140, 168)";
+          shipPlacementPossible = true;
+        } else if (element.id !== "humanBoard") {
+          element.style.background = "indianred";
+        }
+      }
+    }
+  };
+
+  const mouseOutHumanBoard = (event) => {
+    const element = event.target;
+
+    if (
+      element.style.background === "rgb(84, 140, 168)" ||
+      element.style.background === "indianred"
+    ) {
+      element.style.background = "";
+
+      const shipToPaint = shipLengths[shipIndex];
+
+      if (shipPlacementPossible) {
+        for (let index = 1; index < shipToPaint; index++) {
+          const newCoordinates = {
+            row: Number(element.dataset.row),
+            column: Number(element.dataset.column),
+          };
+          newCoordinates[shipDimension] = newCoordinates[shipDimension] + index;
+          const toColorElement = document.querySelector(
+            `[data-row="${newCoordinates.row}"][data-column="${newCoordinates.column}"]`
+          );
+          toColorElement.style.background = "";
+        }
+
+        shipPlacementPossible = false;
+      }
+    }
+  };
+
+  const mouseClickHumanBoard = (event) => {
+    const element = event.target;
+    const placementCoordinates = [];
+
+    if (shipPlacementPossible) {
+      const shipToPaint = shipLengths[shipIndex];
+      const stringCoordinate = element.dataset;
+      const currentCoordinate = [
+        Number(stringCoordinate.row),
+        Number(stringCoordinate.column),
+      ];
+      placementCoordinates.push(currentCoordinate);
+
+      for (let index = 1; index < shipToPaint; index++) {
+        const nextCoordinate = [...currentCoordinate];
+        const dimension = shipDimension === "row" ? 0 : 1;
+        nextCoordinate[dimension] = nextCoordinate[dimension] + index;
+        placementCoordinates.push(nextCoordinate);
+      }
+
+      humanBoard.placeShip(placementCoordinates);
+      humanDOMBoard.innerHTML = "";
+      humanBoard.renderGameBoard(humanDOMBoard, true);
+      shipIndex++;
+      textDisplay.textContent = `Place your ships on the board! Current ship length: ${shipLengths[shipIndex]} places`;
+      shipPlacementPossible = false;
+    }
+  };
+
+  const addMouseOverListener = (boardDOM) => {
+    boardDOM.addEventListener("mouseover", mouseOverHumanBoard);
+  };
+
+  const addMouseOutListener = (boardDOM) => {
+    boardDOM.addEventListener("mouseout", mouseOutHumanBoard);
+  };
+
+  const addMouseClickListener = (boardDOM) => {
+    boardDOM.addEventListener("click", mouseClickHumanBoard);
+  };
+
   return {
     addRestartButton,
+    addMouseOverListener,
+    addMouseOutListener,
+    addMouseClickListener,
   };
 };
 
