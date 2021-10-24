@@ -74,17 +74,17 @@ const gameBoard = () => {
 
         if (showShip) {
           if (coordStatus.hasShip) {
-            toAdd.style.background = "purple";
+            toAdd.style.background = "#476072";
           }
         }
 
         if (coordStatus.hasShip && coordStatus.hasHit) {
-          toAdd.style.background = "red";
+          toAdd.style.background = "indianred";
           if (coordStatus.ship.isSunk()) {
             toAdd.textContent = "X";
           }
         } else if (coordStatus.hasHit) {
-          toAdd.style.background = "blue";
+          toAdd.style.background = "#5089C6";
         }
 
         DOMElement.appendChild(toAdd);

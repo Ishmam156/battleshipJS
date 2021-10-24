@@ -4,6 +4,7 @@ import { player } from "./player";
 const gameLoop = () => {
   const humanDOMBoard = document.getElementById("humanBoard");
   const computerDOMBoard = document.getElementById("computerBoard");
+  const textDisplay = document.getElementById("textContent").firstElementChild;
 
   const humanBoard = gameBoard();
   const computerBoard = gameBoard();
@@ -15,17 +16,26 @@ const gameLoop = () => {
   let shipDimension = "row";
   let shipPlacementPossible = false;
 
+  textDisplay.textContent = `Place your ships on the board! Current ship length: ${shipLengths[shipIndex]} places`;
+
   const checkWinner = () => {
     if (humanBoard.allSunk() || computerBoard.allSunk()) return true;
     return false;
   };
 
+  const addRestartButton = () => {
+    const restartButton = document.getElementById("dimensionButton");
+    restartButton.style.display = "block";
+    restartButton.textContent = "Play again?";
+    restartButton.onclick = () => location.reload();
+  };
+
   (function addDimensionButton() {
-    const humanMainDiv = document.querySelector("main").firstElementChild;
+    const humanMainDiv = document.getElementById("textContent");
     const button = document.createElement("button");
 
     button.id = "dimensionButton";
-    button.textContent = `Change to ${
+    button.textContent = `Change placement to ${
       shipDimension === "row" ? "row" : "column"
     }`;
 
@@ -34,10 +44,10 @@ const gameLoop = () => {
 
       if (currentText.textContent.includes("row")) {
         shipDimension = "column";
-        currentText.textContent = "Change to column";
+        currentText.textContent = "Change placement to column";
       } else {
         shipDimension = "row";
-        currentText.textContent = "Change to row";
+        currentText.textContent = "Change placement to row";
       }
     });
 
@@ -63,22 +73,34 @@ const gameLoop = () => {
       computerBoard.renderGameBoard(computerDOMBoard, false);
 
       if (checkWinner()) {
-        alert("You Win!");
+        textDisplay.textContent =
+          "Congratulations! You've won and sank all the ships!";
+        textDisplay.style.fontWeight = "bold";
+        addRestartButton();
         return;
       }
 
       humanPlayer.changeTurn();
 
+      textDisplay.textContent = "Wait for the computer's turn!";
+
       computerPlayer.changeTurn();
-      computerPlayer.makeRandomMove();
-      humanDOMBoard.innerHTML = "";
-      humanBoard.renderGameBoard(humanDOMBoard, true);
-      if (checkWinner()) {
-        alert("Computer Wins");
-        return;
-      }
-      computerPlayer.changeTurn();
-      humanPlayer.changeTurn();
+      setTimeout(() => {
+        computerPlayer.makeRandomMove();
+        humanDOMBoard.innerHTML = "";
+        humanBoard.renderGameBoard(humanDOMBoard, true);
+        if (checkWinner()) {
+          textDisplay.textContent =
+            "Oh no! You've lost and all your ships have sunk!";
+          textDisplay.style.fontWeight = "bold";
+          addRestartButton();
+          return;
+        }
+        computerPlayer.changeTurn();
+        humanPlayer.changeTurn();
+        textDisplay.textContent =
+          "Your turn again! Try to sink your opponent's ships!";
+      }, 1000);
     }
   };
 
@@ -130,10 +152,10 @@ const gameLoop = () => {
       humanDOMBoard.removeEventListener("click", mouseClickHumanBoard);
       document.getElementById("dimensionButton").style.display = "none";
       humanPlayer.changeTurn();
+      textDisplay.textContent = "Your turn! Try to sink your opponent's ships!";
     }
 
     if (!element.style.background) {
-      element.style.background = "lightgrey";
       const shipToPaint = shipLengths[shipIndex];
 
       const divsToPaint = [];
@@ -160,9 +182,13 @@ const gameLoop = () => {
 
         if (divsToPaint.length === shipToPaint - 1) {
           divsToPaint.forEach(
-            (paintElement) => (paintElement.style.background = "lightgrey")
+            (paintElement) =>
+              (paintElement.style.background = "rgb(84, 140, 168)")
           );
+          element.style.background = "rgb(84, 140, 168)";
           shipPlacementPossible = true;
+        } else if (element.id !== "humanBoard") {
+          element.style.background = "indianred";
         }
       }
     }
@@ -170,7 +196,10 @@ const gameLoop = () => {
 
   const mouseOutHumanBoard = (event) => {
     const element = event.target;
-    if (element.style.background === "lightgrey") {
+    if (
+      element.style.background === "rgb(84, 140, 168)" ||
+      element.style.background === "indianred"
+    ) {
       element.style.background = "";
 
       const shipToPaint = shipLengths[shipIndex];
@@ -217,6 +246,7 @@ const gameLoop = () => {
       humanDOMBoard.innerHTML = "";
       humanBoard.renderGameBoard(humanDOMBoard, true);
       shipIndex++;
+      textDisplay.textContent = `Place your ships on the board! Current ship length: ${shipLengths[shipIndex]} places`;
       shipPlacementPossible = false;
     }
   };

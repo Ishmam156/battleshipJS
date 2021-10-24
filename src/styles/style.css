@@ -1,3 +1,11 @@
+:root {
+  --mainBackground: #eeeeee;
+  --mainTextColor: #334257;
+  --secondaryTextcolor: #476072;
+  --mainAccentColor: #548ca8;
+  --secondaryAccentColor: #2c6f91;
+}
+
 body {
   font-family: Helvetica, sans-serif;
   display: flex;
@@ -5,22 +13,43 @@ body {
   height: 100vh;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--mainBackground);
 }
 
 header {
-  padding: 10px;
+  padding: 0.5em 2em;
+  margin: 0.5em;
+  border: 2px dotted var(--mainAccentColor);
+  font-weight: bold;
+  font-size: x-large;
+  color: var(--mainTextColor);
 }
 
 main {
   display: flex;
-  height: 70vh;
-  width: 90vw;
-  gap: 50px;
-  border: 1px solid black;
-  padding: 20px;
+  height: 80vh;
+  width: 100vw;
+  gap: 5em;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+#textContent {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+#textContent p {
+  width: 30em;
+  padding: 1em;
+  text-align: center;
+  border: 1px dotted var(--mainAccentColor);
+  font-size: small;
 }
 
 #humanBoard,
@@ -28,18 +57,49 @@ main {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
+  gap: 2px;
 }
 
 #humanBoard div,
 #computerBoard div {
-  height: 30px;
-  width: 30px;
-  border: 1px solid gray;
+  height: 35px;
+  width: 35px;
+  border: 1px solid var(--mainTextColor);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+main div p {
+  margin-top: 1em;
+  color: var(--mainTextColor);
+  font-weight: bold;
+}
+
+button {
+  background-color: var(--mainAccentColor);
+  color: var(--mainBackground);
+  padding: 0.5em;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--secondaryAccentColor);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
 footer {
   padding: 10px;
+}
+
+a {
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--mainTextColor);
+}
+
+a:hover {
+  text-decoration: underline;
 }

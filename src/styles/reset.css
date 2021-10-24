@@ -28,13 +28,3 @@ ol,
 ul {
   list-style: none;
 }
-
-a,
-a:-webkit-any-link {
-  all: unset;
-}
-
-/* img {
-  max-width: 100%;
-  height: auto;
-} */
