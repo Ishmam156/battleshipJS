@@ -79,12 +79,12 @@ const gameBoard = () => {
         }
 
         if (coordStatus.hasShip && coordStatus.hasHit) {
-          toAdd.style.background = "indianred";
+          toAdd.style.background = "rgb(205, 92, 92)";
           if (coordStatus.ship.isSunk()) {
             toAdd.textContent = "X";
           }
         } else if (coordStatus.hasHit) {
-          toAdd.style.background = "#5089C6";
+          toAdd.style.background = "rgb(80, 137, 198)";
         }
 
         DOMElement.appendChild(toAdd);

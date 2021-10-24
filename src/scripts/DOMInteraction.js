@@ -88,7 +88,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
           element.style.background = "rgb(84, 140, 168)";
           shipPlacementPossible = true;
         } else if (element.id !== "humanBoard") {
-          element.style.background = "indianred";
+          element.style.background = "rgb(205, 92, 92)";
         }
       }
     }
@@ -96,10 +96,12 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
 
   const mouseOutHumanBoard = (event) => {
     const element = event.target;
+    let elementBackgroundStyle = element.style.background.split(")")[0];
+    elementBackgroundStyle += ")";
 
     if (
-      element.style.background === "rgb(84, 140, 168)" ||
-      element.style.background === "indianred"
+      elementBackgroundStyle === "rgb(84, 140, 168)" ||
+      elementBackgroundStyle === "rgb(205, 92, 92)"
     ) {
       element.style.background = "";
 

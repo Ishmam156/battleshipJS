@@ -29,8 +29,8 @@ const gameLoop = () => {
       ];
 
       if (
-        event.target.style.background === "blue" ||
-        event.target.style.background === "red"
+        event.target.style.background === "rgb(80, 137, 198)" ||
+        event.target.style.background === "rgb(205, 92, 92)"
       ) {
         return;
       }
