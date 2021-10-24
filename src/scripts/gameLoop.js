@@ -1,6 +1,7 @@
 import { gameBoard } from "./gameBoard";
 import { player } from "./player";
 import { DOMInteraction } from "./DOMInteraction";
+import { blueColor, redColor } from "./helper";
 
 const gameLoop = () => {
   const humanDOMBoard = document.getElementById("humanBoard");
@@ -28,9 +29,12 @@ const gameLoop = () => {
         Number(event.target.dataset.column),
       ];
 
+      let elementBackgroundStyle = event.target.style.background.split(")")[0];
+      elementBackgroundStyle += ")";
+
       if (
-        event.target.style.background === "rgb(80, 137, 198)" ||
-        event.target.style.background === "rgb(205, 92, 92)"
+        elementBackgroundStyle === blueColor ||
+        elementBackgroundStyle === redColor
       ) {
         return;
       }

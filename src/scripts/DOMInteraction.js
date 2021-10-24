@@ -1,3 +1,5 @@
+import { redColor, hoverColor } from "./helper";
+
 const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
   const shipLengths = [5, 4, 3, 3, 2];
   let shipIndex = 0;
@@ -82,13 +84,12 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
 
         if (divsToPaint.length === shipToPaint - 1) {
           divsToPaint.forEach(
-            (paintElement) =>
-              (paintElement.style.background = "rgb(84, 140, 168)")
+            (paintElement) => (paintElement.style.background = hoverColor)
           );
-          element.style.background = "rgb(84, 140, 168)";
+          element.style.background = hoverColor;
           shipPlacementPossible = true;
         } else if (element.id !== "humanBoard") {
-          element.style.background = "rgb(205, 92, 92)";
+          element.style.background = redColor;
         }
       }
     }
@@ -100,8 +101,8 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
     elementBackgroundStyle += ")";
 
     if (
-      elementBackgroundStyle === "rgb(84, 140, 168)" ||
-      elementBackgroundStyle === "rgb(205, 92, 92)"
+      elementBackgroundStyle === hoverColor ||
+      elementBackgroundStyle === redColor
     ) {
       element.style.background = "";
 

@@ -1,4 +1,5 @@
 import { createShip } from "./ship";
+import { shipColor, redColor, blueColor } from "./helper";
 
 const BOARD_SIZE = 10;
 
@@ -74,17 +75,17 @@ const gameBoard = () => {
 
         if (showShip) {
           if (coordStatus.hasShip) {
-            toAdd.style.background = "#476072";
+            toAdd.style.background = shipColor;
           }
         }
 
         if (coordStatus.hasShip && coordStatus.hasHit) {
-          toAdd.style.background = "rgb(205, 92, 92)";
+          toAdd.style.background = redColor;
           if (coordStatus.ship.isSunk()) {
             toAdd.textContent = "X";
           }
         } else if (coordStatus.hasHit) {
-          toAdd.style.background = "rgb(80, 137, 198)";
+          toAdd.style.background = blueColor;
         }
 
         DOMElement.appendChild(toAdd);
