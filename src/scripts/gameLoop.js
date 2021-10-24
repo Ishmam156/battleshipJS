@@ -134,6 +134,8 @@ const gameLoop = () => {
   humanDOMBoard.addEventListener("mouseover", (event) => {
     const element = event.target;
 
+    if (shipIndex === shipLengths.length) return;
+
     if (!element.style.background) {
       element.style.background = "lightgrey";
       const shipToPaint = shipLengths[shipIndex];
@@ -192,6 +194,33 @@ const gameLoop = () => {
 
         shipPlacementPossible = false;
       }
+    }
+  });
+
+  humanDOMBoard.addEventListener("click", (event) => {
+    const element = event.target;
+    const placementCoordinates = [];
+
+    if (shipPlacementPossible) {
+      const shipToPaint = shipLengths[shipIndex];
+      const stringCoordinate = element.dataset;
+      const currentCoordinate = [
+        Number(stringCoordinate.row),
+        Number(stringCoordinate.column),
+      ];
+      placementCoordinates.push(currentCoordinate);
+
+      for (let index = 1; index < shipToPaint; index++) {
+        const nextCoordinate = [...currentCoordinate];
+        const dimension = shipDimension === "row" ? 0 : 1;
+        nextCoordinate[dimension] = nextCoordinate[dimension] + index;
+        placementCoordinates.push(nextCoordinate);
+      }
+
+      humanBoard.placeShip(placementCoordinates);
+      humanDOMBoard.innerHTML = "";
+      humanBoard.renderGameBoard(humanDOMBoard, true);
+      shipIndex++;
     }
   });
 
