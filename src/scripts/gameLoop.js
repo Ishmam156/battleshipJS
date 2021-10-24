@@ -69,29 +69,29 @@ const gameLoop = () => {
       [1, 5],
     ]);
 
-    humanBoard.placeShip([
-      [3, 3],
-      [3, 4],
-      [3, 5],
-      [3, 6],
-    ]);
+    // humanBoard.placeShip([
+    //   [3, 3],
+    //   [3, 4],
+    //   [3, 5],
+    //   [3, 6],
+    // ]);
 
-    humanBoard.placeShip([
-      [5, 4],
-      [6, 4],
-      [7, 4],
-    ]);
+    // humanBoard.placeShip([
+    //   [5, 4],
+    //   [6, 4],
+    //   [7, 4],
+    // ]);
 
-    humanBoard.placeShip([
-      [6, 7],
-      [7, 7],
-      [8, 7],
-    ]);
+    // humanBoard.placeShip([
+    //   [6, 7],
+    //   [7, 7],
+    //   [8, 7],
+    // ]);
 
-    humanBoard.placeShip([
-      [8, 1],
-      [8, 2],
-    ]);
+    // humanBoard.placeShip([
+    //   [8, 1],
+    //   [8, 2],
+    // ]);
 
     computerBoard.placeShip([
       [1, 1],
@@ -125,6 +125,21 @@ const gameLoop = () => {
       [8, 2],
     ]);
   })();
+
+  humanDOMBoard.addEventListener("mouseover", (event) => {
+    const element = event.target;
+
+    if (!element.style.background) {
+      element.style.background = "lightgrey";
+    }
+  });
+
+  humanDOMBoard.addEventListener("mouseout", (event) => {
+    const element = event.target;
+    if (element.style.background === "lightgrey") {
+      element.style.background = "";
+    }
+  });
 
   humanBoard.renderGameBoard(humanDOMBoard, true);
   computerBoard.renderGameBoard(computerDOMBoard, false);
