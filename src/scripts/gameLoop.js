@@ -21,7 +21,7 @@ const gameLoop = () => {
   };
 
   const boardListener = (event, board) => {
-    if (humanPlayer.currentTurn()) {
+    if (humanPlayer.currentTurn() && !checkWinner()) {
       if (Object.keys(event.target.dataset).length === 0) return;
 
       const coordinate = [

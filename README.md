@@ -26,6 +26,10 @@ https://user-images.githubusercontent.com/64395142/138598861-4eaa299d-add0-4455-
 
 ![Website Desktop Image](https://i.imgur.com/haeYUJf.png)
 
+<h3>To Do</h3>
+
+- Enable computer to randomly place ships at start of game
+
 <h3>Acknowledgements</h3>
 
 - [The Odin Project](https://www.theodinproject.com/)
