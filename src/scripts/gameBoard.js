@@ -3,9 +3,11 @@ import { shipColor, redColor, blueColor } from "./helper";
 
 const BOARD_SIZE = 10;
 
+// Factory Function for gameBoard to keep track of board status
 const gameBoard = () => {
   const board = [];
 
+  // Initialize 3D array for the gameBoard with each cell having Ship, Hit information
   (function initiliazeBoard() {
     for (let outerIndex = 0; outerIndex < BOARD_SIZE; outerIndex++) {
       const toAdd = [];
@@ -43,6 +45,7 @@ const gameBoard = () => {
     return false;
   };
 
+  // List of attacks that didn't hit a ship
   const getMissedAttacks = () => {
     const missedCoordinates = [];
     for (let outerIndex = 0; outerIndex < BOARD_SIZE; outerIndex++) {
@@ -64,6 +67,7 @@ const gameBoard = () => {
 
   const getBoard = () => board;
 
+  // Render gameBoard within a DOMElement alongside the right color for each cell based on cell status
   const renderGameBoard = (DOMElement, showShip) => {
     for (let outerIndex = 0; outerIndex < BOARD_SIZE; outerIndex++) {
       for (let innerIndex = 0; innerIndex < BOARD_SIZE; innerIndex++) {

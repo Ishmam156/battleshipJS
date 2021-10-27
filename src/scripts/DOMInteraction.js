@@ -1,15 +1,18 @@
 import { redColor, hoverColor } from "./helper";
 
+// Factory Function to handle main DOM Interaction
 const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
   const shipLengths = [5, 4, 3, 3, 2];
   let shipIndex = 0;
   let shipDimension = "row";
   let shipPlacementPossible = false;
 
+  // Initial text display to guide placement of ships
   const computerDOMBoard = document.getElementById("computerBoard");
   const textDisplay = document.getElementById("textContent").firstElementChild;
   textDisplay.textContent = `Place your ships on the board! Current ship length: ${shipLengths[shipIndex]} places`;
 
+  // Show only the humanBoard at initial stage
   computerDOMBoard.parentElement.style.display = "none";
 
   const addRestartButton = () => {
@@ -19,6 +22,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
     restartButton.onclick = () => location.reload();
   };
 
+  // Button that enables switching between row and column placement
   (function addDimensionButton() {
     const humanMainDiv = document.getElementById("textContent");
     const button = document.createElement("button");
@@ -46,6 +50,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
   const mouseOverHumanBoard = (event) => {
     const element = event.target;
 
+    // Once all ships have been placed, clear up the current listeners and start the game
     if (shipIndex === shipLengths.length) {
       humanDOMBoard.removeEventListener("mouseover", mouseOverHumanBoard);
       humanDOMBoard.removeEventListener("mouseout", mouseOutHumanBoard);
@@ -62,6 +67,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
 
       const divsToPaint = [];
 
+      // Generate list of co-ordinates based on shipLength and current hovered over cell
       for (let index = 1; index < shipToPaint; index++) {
         const newCoordinates = {
           row: Number(element.dataset.row),
@@ -70,6 +76,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
         newCoordinates[shipDimension] = newCoordinates[shipDimension] + index;
         let toColorElement;
 
+        // Check if current ship placement is possible
         try {
           toColorElement = document.querySelector(
             `[data-row="${newCoordinates.row}"][data-column="${newCoordinates.column}"]`
@@ -81,7 +88,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
         if (toColorElement && !toColorElement.style.background) {
           divsToPaint.push(toColorElement);
         }
-
+        // If placement possible, color the cells with hoverColor
         if (divsToPaint.length === shipToPaint - 1) {
           divsToPaint.forEach(
             (paintElement) => (paintElement.style.background = hoverColor)
@@ -100,6 +107,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
     let elementBackgroundStyle = element.style.background.split(")")[0];
     elementBackgroundStyle += ")";
 
+    // Remove the color of the previously highlighted cell
     if (
       elementBackgroundStyle === hoverColor ||
       elementBackgroundStyle === redColor
@@ -108,6 +116,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
 
       const shipToPaint = shipLengths[shipIndex];
 
+      // If the previous highlighted cell was a legal move, then also remove the other highlighted cells
       if (shipPlacementPossible) {
         for (let index = 1; index < shipToPaint; index++) {
           const newCoordinates = {
@@ -130,6 +139,7 @@ const DOMInteraction = (humanBoard, humanDOMBoard, humanPlayer) => {
     const element = event.target;
     const placementCoordinates = [];
 
+    // If highlighted cell ends up as legal move, create full co-ordinate list and place ship
     if (shipPlacementPossible) {
       const shipToPaint = shipLengths[shipIndex];
       const stringCoordinate = element.dataset;

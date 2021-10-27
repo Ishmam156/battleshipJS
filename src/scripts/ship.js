@@ -1,5 +1,7 @@
+// Factory Function to handle ship creation
 const createShip = (length, arrayCoords) => {
   const shipLength = length;
+  // Adding isHit attribute to easily keep track of hit status
   let shipCoords = arrayCoords.map((spot) => {
     return {
       coords: [spot[0], spot[1]],
@@ -22,6 +24,7 @@ const createShip = (length, arrayCoords) => {
 
   const getShipLength = () => shipLength;
 
+  // Full coordinate of the ship
   const allCoords = () =>
     shipCoords.map((point) => [point.coords[0], point.coords[1]]);
 
